@@ -1,4 +1,4 @@
-package com.example;
+package com;
 
 public class Teste {
     public String id;
@@ -6,5 +6,4 @@ public class Teste {
     public Teste(String id) {
         this.id = id;
     }
-
 }
