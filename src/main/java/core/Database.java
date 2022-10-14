@@ -22,14 +22,19 @@ public class Database {
         this.conn = conn;
     }
 
-    public Array select() {
-        Statement st = this.conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM mytable WHERE columnfoo = 500");
-        while (rs.next()) {
-            System.out.print("Column 1 returned ");
-            System.out.println(rs.getString(1));
+    public ResultSet select(String query) {
+        Statement st;
+        ResultSet rs = null;
+        try {
+            st = this.conn.createStatement();
+            rs = st.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-        rs.close();
-        st.close();
+        return rs;
+        // while (rs.next()) {
+        //     System.out.print("Column 1 returned ");
+        //     System.out.println(rs.getString(1));
+        // }
     }
 }

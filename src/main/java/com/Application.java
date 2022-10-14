@@ -29,4 +29,40 @@ public class Application {
 		Teste teste = new Teste(id);
         return teste;
     }
+
+	@GetMapping("/api/auth/signup")
+	public boolean signup() {
+		return true;
+	}
+
+	@GetMapping("/api/auth/signin")
+	public boolean signin() {
+		return true;
+	}
+
+	@GetMapping("/api/auth/signout")
+	public boolean signout() {
+		return true;
+	}
+
+	@GetMapping("/api/test/all")
+	public boolean all() {
+		return true;
+	}
+
+	@GetMapping("/api/test/user")
+	public boolean user() {
+		return true;
+	}
+
+	@GetMapping("/api/test/mod")
+	public boolean mod() {
+		return true;
+	}
+
+	@GetMapping("/api/test/admin")
+	public boolean admin() {
+		return true;
+	}
+
 }

@@ -7,4 +7,6 @@ public class User {
     protected String password;
     protected int id;
     protected boolean isAdmin;
+
+    public boolean Login()
 }
