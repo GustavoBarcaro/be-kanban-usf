@@ -5,12 +5,11 @@ import java.sql.*;
 
 public class Database {
     private final String url = "jdbc:postgresql://localhost/database";
-    private final String user = "user";
+    private final String user = "user_name";
     private final String password = "pass123";
     private Connection conn;
 
     public Database() {
-
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, password);
@@ -36,5 +35,15 @@ public class Database {
         //     System.out.print("Column 1 returned ");
         //     System.out.println(rs.getString(1));
         // }
+    }
+
+    public void executeQuery(String query) {
+        Statement st;
+        try {
+            st = this.conn.createStatement();
+            st.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
