@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import core.Token;
 
 import com.Teste;
 
+import classes.Task;
 import classes.User;
 
 @SpringBootApplication
@@ -49,32 +51,18 @@ public class Application {
 
 	@GetMapping("/api/auth/signout")
 	public boolean signout(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
-		String auth = authorization.substring(7);
 		Token token = new Token();
-		int id_user = token.auth(auth);
-		// System.out.println("id_user");
-		// System.out.println(id_user);
+		token.destroy(authorization);
 		return true;
 	}
 
-	@GetMapping("/api/test/all")
-	public boolean all() {
+	@GetMapping("/api/task/create")
+	public boolean createTask(
+		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+		@RequestBody Task idk
+	) {
+		Task task = new Task();
+		task.store(authorization, idk);
 		return true;
 	}
-
-	@GetMapping("/api/test/user")
-	public boolean user() {
-		return true;
-	}
-
-	@GetMapping("/api/test/mod")
-	public boolean mod() {
-		return true;
-	}
-
-	@GetMapping("/api/test/admin")
-	public boolean admin() {
-		return true;
-	}
-
 }

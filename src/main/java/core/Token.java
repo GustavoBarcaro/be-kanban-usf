@@ -20,6 +20,13 @@ public class Token extends BaseClass {
         return token;
     }
 
+    public boolean destroy(String authorization) {
+		String auth = authorization.substring(7);
+        String query = String.format("delete from user_token where token = '%s'", auth);
+        this.conn.executeQuery(query);
+        return true;
+    }
+
     public String basicAuth(String authorization) {
         String[] parts = Token.base64_decode(authorization).split(":");
         String username = parts[0];
@@ -36,22 +43,6 @@ public class Token extends BaseClass {
         }
 
         return "";
-    }
-
-    public int auth(String token) {
-        System.out.println(String.format("select id_user from user_token where token = '%s'", token));
-        ResultSet rs = this.conn.select(String.format("select id_user from user_token where token = '%s'", token));
-        int id_user = -1;
-        try {
-            while (rs.next()) {
-                id_user = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            id_user = -1;
-        }
-
-        return id_user;
     }
 
     public static String sha256(final String base) {
