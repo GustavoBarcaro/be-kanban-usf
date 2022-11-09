@@ -14,7 +14,16 @@ help:
 
 .PHONY: run
 run: ## Run service
-	@./mvnw spring-boot:run
+	@docker compose -f compose.yaml up --build --remove-orphans -d
+
+.PHONY: setup
+setup: ## Setup required environment
+	@echo "creating .env file"
+	@cp .env.example .env
+
+.PHONY: connect
+connect: ##Connect to docker postgres
+	@docker exec -it be-kanban-postgres psql -U user_name database
 
 .PHONY: create-database
 create-database: ## Create postgres container

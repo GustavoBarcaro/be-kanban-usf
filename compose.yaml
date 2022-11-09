@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  be-kanban-usf:
+    build: .
+    container_name: be-kanban
+    ports:
+      - '${SPRING_PORT}:8080'
+    networks:
+      - core
+
+  postgres:
+    image: postgres
+    container_name: be-kanban-postgres
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: "user_name"
+      POSTGRES_PASSWORD: "pass123"
+      POSTGRES_DB: "database"
+    networks:
+      - core
+
+networks:
+  core:
