@@ -1,8 +1,6 @@
 package core;
 
 import java.security.MessageDigest;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Random;
 
@@ -30,7 +28,7 @@ public class Token extends BaseClass {
     public String basicAuth(String authorization) {
         String[] parts = Token.base64_decode(authorization).split(":");
         String username = parts[0];
-        String password = parts[1];
+        String password = Token.sha256(parts[1]);
         String where = String.format("username='%s' and password='%s'", username, password);
 
         User user = new User();

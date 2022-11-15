@@ -3,16 +3,37 @@ package classes;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import core.Token;
+
 public class User extends BaseClass {
     protected String username;
     protected String password;
     protected int id;
     protected boolean isAdmin;
 
+    public int store(UserModel user) {
+        user.password = Token.sha256(user.password);
+        String query = String.format("insert into user_account (username, password, is_admin) values ('%s', '%s', %s)",
+            user.username,
+            user.password,
+            user.isAdmin
+        );
+        this.conn.executeQuery(query);
+        ResultSet rs = this.conn.select("select max(id) from user_account");
+        int id = -1;
+        try {
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
     public void getUserDatabase(String where) {
-        System.out.println(String.format("Select id, username, password, is_admin from user_account where %s", where));
         ResultSet rs = this.conn.select(
-            String.format("Select id, username, password, is_admin from user_account where %s", where)
+            String.format("select id, username, password, is_admin from user_account where %s", where)
         );
 
         if (rs == null) {

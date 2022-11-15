@@ -16,10 +16,11 @@ help:
 run: ## Run service
 	@docker compose -f compose.yaml up --build --remove-orphans -d
 
-.PHONY: setup
 setup: ## Setup required environment
-	@echo "creating .env file"
-	@cp .env.example .env
+	@echo "creating .env file";
+	@touch .env
+	@read -p "Spring Port [8080]: "   SPRING_PORT;   SPRING_PORT=$${SPRING_PORT:="8080"};     echo "SPRING_PORT=$${SPRING_PORT}"     > .env
+	@read -p "Postgres Port [5432]: " POSTGRES_PORT; POSTGRES_PORT=$${POSTGRES_PORT:="5432"}; echo "POSTGRES_PORT=$${POSTGRES_PORT}" >> .env
 
 .PHONY: connect
 connect: ##Connect to docker postgres

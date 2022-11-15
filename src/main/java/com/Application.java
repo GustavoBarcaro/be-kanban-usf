@@ -3,19 +3,9 @@ package com;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import core.Database;
-import core.Token;
-
-import com.Teste;
-
-import classes.Task;
-import classes.User;
+import org.springframework.web.bind.annotation.*;
+import core.*;
+import classes.*;
 
 @SpringBootApplication
 @RestController
@@ -36,9 +26,10 @@ public class Application {
         return teste;
     }
 
-	@GetMapping("/api/auth/signup")
-	public boolean signup() {
-		return true;
+	@PostMapping("/api/auth/signup")
+	public int signup(@RequestBody UserModel user_json) {
+        User user = new User();
+        return user.store(user_json);
 	}
 
 	@GetMapping("/api/auth/signin")
@@ -56,13 +47,38 @@ public class Application {
 		return true;
 	}
 
-	@GetMapping("/api/task/create")
-	public boolean createTask(
-		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-		@RequestBody Task idk
+    @GetMapping("/api/task/")
+	public Task[] getAll(
+		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization
 	) {
 		Task task = new Task();
-		task.store(authorization, idk);
-		return true;
+		return task.getAll(authorization);
+	}
+
+	@PostMapping("/api/task/create")
+	public int createTask(
+		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+		@RequestBody TaskModel task_json
+	) {
+		Task task = new Task();
+		return task.store(authorization, task_json);
+	}
+
+	@GetMapping("/api/task/delete/{task_id}")
+	public boolean deleteTask(
+		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+		@PathVariable int task_id
+	) {
+		Task task = new Task();
+		return task.destroy(authorization, task_id);
+	}
+
+    @PostMapping("/api/task/update/{task_id}")
+	public boolean updateTask(
+		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+		@PathVariable TaskModel task_json
+	) {
+		Task task = new Task();
+		return task.update(authorization, task_json);
 	}
 }

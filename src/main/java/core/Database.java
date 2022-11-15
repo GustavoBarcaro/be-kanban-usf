@@ -4,7 +4,7 @@ package core;
 import java.sql.*;
 
 public class Database {
-    private final String url = "jdbc:postgresql://localhost/database";
+    private final String url = "jdbc:postgresql://172.25.173.25/database";
     private final String user = "user_name";
     private final String password = "pass123";
     private Connection conn;
@@ -31,10 +31,6 @@ public class Database {
             System.out.println(e.getMessage());
         }
         return rs;
-        // while (rs.next()) {
-        //     System.out.print("Column 1 returned ");
-        //     System.out.println(rs.getString(1));
-        // }
     }
 
     public void executeQuery(String query) {
