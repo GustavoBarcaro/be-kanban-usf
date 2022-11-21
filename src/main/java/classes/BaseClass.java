@@ -12,17 +12,18 @@ public abstract class BaseClass {
         this.conn = new Database();
     }
 
-    public int auth(String authorization) {
+    public String auth(String authorization) {
 		String token = authorization.substring(7);
+        System.out.println(String.format("select id_user from user_token where token = '%s'", token));
         ResultSet rs = this.conn.select(String.format("select id_user from user_token where token = '%s'", token));
-        int id_user = -1;
+        String id_user = "";
         try {
             while (rs.next()) {
-                id_user = rs.getInt(1);
+                id_user = rs.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            id_user = -1;
+            id_user = "";
         }
 
         return id_user;

@@ -1,10 +1,9 @@
 package core;
 
-// import org.postgresql.*;
 import java.sql.*;
 
 public class Database {
-    private final String url = "jdbc:postgresql://172.25.173.25/database";
+    private final String url = "jdbc:postgresql://172.24.81.205/database";
     private final String user = "user_name";
     private final String password = "pass123";
     private Connection conn;
@@ -41,5 +40,19 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public String insertReturningId(String query) {
+        ResultSet rs = this.select(query);
+        String id = "";
+        try {
+            rs.next();
+            id = rs.getString(1);
+            System.out.println(id);
+        } catch (SQLException e) {
+            id = "";
+            e.printStackTrace();
+        }
+        return id;
     }
 }

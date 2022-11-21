@@ -9,11 +9,13 @@ import classes.User;
 
 public class Token extends BaseClass {
     public String token;
+    public String id_user;
 
-    public String store(int user_id) {
-        String token = Token.sha256(Token.randomString() + user_id);
-        String query = String.format("insert into user_token (id_user, token) values (%s, '%s')", user_id, token);
+    public String store(String id_user) {
+        String token = Token.sha256(Token.randomString() + id_user);
+        String query = String.format("insert into user_token (id_user, token) values ('%s', '%s')", id_user, token);
         this.token = token;
+        this.id_user = id_user;
         this.conn.executeQuery(query);
         return token;
     }
@@ -34,9 +36,9 @@ public class Token extends BaseClass {
         User user = new User();
 
         user.getUserDatabase(where);
-        int id_user = user.getId();
+        String id_user = user.getId();
 
-        if (id_user != -1) {
+        if (id_user != "") {
             return this.store(id_user);
         }
 

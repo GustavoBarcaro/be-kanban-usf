@@ -15,19 +15,8 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
-	}
-
-    @GetMapping("/teste/{id}")
-    public Teste read(@PathVariable String id) {
-		Teste teste = new Teste(id);
-        return teste;
-    }
-
-	@PostMapping("/api/auth/signup")
-	public int signup(@RequestBody UserModel user_json) {
+    @PostMapping("/api/auth/signup")
+	public String signup(@RequestBody UserModel user_json) {
         User user = new User();
         return user.store(user_json);
 	}
@@ -56,7 +45,7 @@ public class Application {
 	}
 
 	@PostMapping("/api/task/create")
-	public int createTask(
+	public String createTask(
 		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
 		@RequestBody TaskModel task_json
 	) {
@@ -67,7 +56,7 @@ public class Application {
 	@GetMapping("/api/task/delete/{task_id}")
 	public boolean deleteTask(
 		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-		@PathVariable int task_id
+		@PathVariable String task_id
 	) {
 		Task task = new Task();
 		return task.destroy(authorization, task_id);

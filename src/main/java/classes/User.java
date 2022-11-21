@@ -8,10 +8,10 @@ import core.Token;
 public class User extends BaseClass {
     protected String username;
     protected String password;
-    protected int id;
+    protected String id;
     protected boolean isAdmin;
 
-    public int store(UserModel user) {
+    public String store(UserModel user) {
         user.password = Token.sha256(user.password);
         String query = String.format("insert into user_account (username, password, is_admin) values ('%s', '%s', %s)",
             user.username,
@@ -20,10 +20,10 @@ public class User extends BaseClass {
         );
         this.conn.executeQuery(query);
         ResultSet rs = this.conn.select("select max(id) from user_account");
-        int id = -1;
+        String id = "";
         try {
             rs.next();
-            id = rs.getInt(1);
+            id = rs.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,20 +37,20 @@ public class User extends BaseClass {
         );
 
         if (rs == null) {
-            this.id = -1;
+            this.id = "";
             System.out.println("nao encontrei");
             return;
         }
 
         try {
             while (rs.next()) {
-                this.id = rs.getInt(1);
+                this.id = rs.getString(1);
                 this.username = rs.getString(2);
                 this.password = rs.getString(3);
                 this.isAdmin = rs.getBoolean(4);
             }
         } catch (SQLException e) {
-            this.id = -1;
+            this.id = "";
             e.printStackTrace();
         }
     }
@@ -70,7 +70,7 @@ public class User extends BaseClass {
         return this.password;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -86,7 +86,7 @@ public class User extends BaseClass {
         this.password = password;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
