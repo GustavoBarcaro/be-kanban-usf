@@ -65,7 +65,7 @@ ALTER TABLE public.task_detail OWNER TO user_name;
 
 CREATE TABLE public.user_account (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    username text NOT NULL,
+    username text NOT NULL UNIQUE,
     password text NOT NULL,
     is_admin boolean DEFAULT false
 );

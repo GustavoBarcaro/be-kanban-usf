@@ -64,9 +64,10 @@ public class Application {
     @PostMapping("/api/task/update/{task_id}")
 	public boolean updateTask(
 		@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-		@PathVariable TaskModel task_json
+		@RequestBody TaskModel task_json,
+		@PathVariable String task_id
 	) {
 		Task task = new Task();
-		return task.update(authorization, task_json);
+		return task.update(authorization, task_json, task_id);
 	}
 }

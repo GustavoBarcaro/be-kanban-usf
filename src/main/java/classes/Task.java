@@ -26,12 +26,12 @@ public class Task extends BaseClass {
 
     public String store(String authorization, TaskModel json_body) {
         String id_user = this.auth(authorization);
-        if (id_user == "") {
+        if (id_user.equals("")) {
             return "sem autorização";
         }
 
         String id_task = json_body.id;
-        if(json_body.id == "" || json_body.id == null) {
+        if(json_body.id.equals("") || json_body.id == null) {
             String query = String.format("insert into task (name, id_user) values ('%s', '%s') returning id",
                 json_body.name, id_user
             );
@@ -53,12 +53,12 @@ public class Task extends BaseClass {
         Task tasks[] = {};
         String id_user = this.auth(authorization);
 
-        if (id_user == "") {
+        if (id_user.equals("")) {
             return tasks;
         }
 
-        ResultSet rs = this.conn.select("select * from task");
         try {
+            ResultSet rs = this.conn.select("select * from task");
             while (rs.next()) {
                 String id = rs.getString(1);
                 String name = rs.getString(2);
@@ -113,10 +113,16 @@ public class Task extends BaseClass {
         return true;
     }
 
-    public boolean update(String authorization, TaskModel task_json) {
-        if (this.auth(authorization) == "") {
+    public boolean update(String authorization, TaskModel task_json, String id_task_detail) {
+        String id_user = this.auth(authorization);
+
+        if (id_user.equals("")) {
             return false;
         }
+// (String id, String name, String time, String dueTime, String description, String status, String row, String idTask, String creatorId)
+        // ResultSet rs = this.conn.select("select * from task_detail where id = '" + id_task_detail + "'");
+
+
         return true;
     }
 }

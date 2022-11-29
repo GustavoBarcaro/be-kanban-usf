@@ -3,6 +3,7 @@ package classes;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import core.Helper;
 import core.Token;
 
 public class User extends BaseClass {
@@ -13,28 +14,29 @@ public class User extends BaseClass {
 
     public String store(UserModel user) {
         user.password = Token.sha256(user.password);
-        String query = String.format("insert into user_account (username, password, is_admin) values ('%s', '%s', %s)",
+        String query = String.format("insert into user_account (username, password, is_admin) values ('%s', '%s', %s) returning id",
             user.username,
             user.password,
-            user.isAdmin
+            user.is_admin
         );
-        this.conn.executeQuery(query);
-        ResultSet rs = this.conn.select("select max(id) from user_account");
-        String id = "";
-        try {
-            rs.next();
-            id = rs.getString(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        String id_user = this.conn.insertReturningId(query);
+        if(id_user.equals("")) {
+            return Helper.simpleJson("message", "something went wrong");
         }
-
-        return id;
+        return Helper.simpleJson("id_user", id_user);
     }
 
     public void getUserDatabase(String where) {
-        ResultSet rs = this.conn.select(
-            String.format("select id, username, password, is_admin from user_account where %s", where)
-        );
+        ResultSet rs = null;
+        try {
+            rs = this.conn.select(
+                String.format("select id, username, password, is_admin from user_account where %s", where)
+            );
+        } catch (SQLException e) {
+            this.id = "";
+            System.out.println("nao encontrei");
+            return;
+        }
 
         if (rs == null) {
             this.id = "";

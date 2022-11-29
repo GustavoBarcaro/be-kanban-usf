@@ -20,15 +20,9 @@ public class Database {
         this.conn = conn;
     }
 
-    public ResultSet select(String query) {
-        Statement st;
-        ResultSet rs = null;
-        try {
-            st = this.conn.createStatement();
-            rs = st.executeQuery(query);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public ResultSet select(String query) throws SQLException {
+        Statement st = this.conn.createStatement();
+        ResultSet rs = st.executeQuery(query);
         return rs;
     }
 
@@ -43,9 +37,9 @@ public class Database {
     }
 
     public String insertReturningId(String query) {
-        ResultSet rs = this.select(query);
         String id = "";
         try {
+            ResultSet rs = this.select(query);
             rs.next();
             id = rs.getString(1);
             System.out.println(id);
