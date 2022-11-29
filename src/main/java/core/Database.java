@@ -3,7 +3,7 @@ package core;
 import java.sql.*;
 
 public class Database {
-    private final String url = "jdbc:postgresql://172.24.81.205/database";
+    private final String url = "jdbc:postgresql://172.26.151.149/database";
     private final String user = "user_name";
     private final String password = "pass123";
     private Connection conn;

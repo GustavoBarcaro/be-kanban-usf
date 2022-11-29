@@ -22,11 +22,10 @@ public class Application {
 	}
 
 	@GetMapping("/api/auth/signin")
-	public Token signin(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+	public String signin(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
 		Token token = new Token();
 		String auth = authorization.substring(6);
-		token.basicAuth(auth);
-		return token;
+		return token.basicAuth(auth);
 	}
 
 	@GetMapping("/api/auth/signout")

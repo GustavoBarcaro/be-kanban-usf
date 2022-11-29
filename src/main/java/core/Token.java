@@ -37,9 +37,18 @@ public class Token extends BaseClass {
 
         user.getUserDatabase(where);
         String id_user = user.getId();
+        Boolean is_admin = user.getIsAdmin();
+        String admin = "false";
+        if (is_admin) {
+            admin = "true";
+        }
+        username = user.getUsername();
 
         if (id_user != "") {
-            return this.store(id_user);
+            String token = this.store(id_user);
+            String[] keys = {"username", "token", "id_user", "is_admin"};
+            String[] values = {username, token, id_user, admin};
+            return Helper.simpleJson(keys, values);
         }
 
         return "";
