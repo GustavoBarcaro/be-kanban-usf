@@ -17,7 +17,7 @@ final public class Helper {
         for (int i = 0; i <= keys.length - 1; i++) {
             string += String.format("\"%s\": \"%s\"", keys[i], values[i]);
             if (i < keys.length - 1) {
-                string += ",";
+                string += ", ";
             }
         }
         return string + "}";

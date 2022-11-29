@@ -43,7 +43,7 @@ public class Task extends BaseClass {
             id_task, json_body.name, json_body.time, json_body.dueTime, json_body.description, json_body.row, id_user
         );
 
-        String[] keys = {"task", "task_detail"};
+        String[] keys = {"task_detail", "task"};
         String[] values= {this.conn.insertReturningId(query), id_task};
 
         return Helper.simpleJson(keys, values);
