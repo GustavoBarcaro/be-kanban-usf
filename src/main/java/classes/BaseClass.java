@@ -14,7 +14,6 @@ public abstract class BaseClass {
 
     public String auth(String authorization) {
 		String token = authorization.substring(7);
-        System.out.println(String.format("select id_user from user_token where token = '%s'", token));
         String id_user = "";
         try {
             ResultSet rs = this.conn.select(String.format("select id_user from user_token where token = '%s'", token));

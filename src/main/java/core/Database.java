@@ -3,7 +3,7 @@ package core;
 import java.sql.*;
 
 public class Database {
-    private final String url = "jdbc:postgresql://172.26.151.149/database";
+    private final String url = "jdbc:postgresql://%s/database";
     private final String user = "user_name";
     private final String password = "pass123";
     private Connection conn;
@@ -11,8 +11,9 @@ public class Database {
     public Database() {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the PostgreSQL server successfully.");
+            String ip = System.getenv("DATABASE_IP");
+            String addr = String.format(url, ip);
+            conn = DriverManager.getConnection(addr, user, password);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -42,7 +43,6 @@ public class Database {
             ResultSet rs = this.select(query);
             rs.next();
             id = rs.getString(1);
-            System.out.println(id);
         } catch (SQLException e) {
             id = "";
             e.printStackTrace();

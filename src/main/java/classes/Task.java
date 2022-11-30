@@ -119,9 +119,13 @@ public class Task extends BaseClass {
         if (id_user.equals("")) {
             return false;
         }
-// (String id, String name, String time, String dueTime, String description, String status, String row, String idTask, String creatorId)
-        // ResultSet rs = this.conn.select("select * from task_detail where id = '" + id_task_detail + "'");
 
+        if (task_json.id.equals("")) {
+            return false;
+        }
+
+        this.destroy(authorization, id_task_detail);
+        this.store(authorization, task_json);
 
         return true;
     }
