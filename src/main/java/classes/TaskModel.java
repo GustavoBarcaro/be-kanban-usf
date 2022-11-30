@@ -8,6 +8,7 @@ public class TaskModel {
     public String description;
     public String row;
     public String id_task_detail;
+    public String status;
 
     public void debug()
     {
@@ -17,6 +18,7 @@ public class TaskModel {
         System.out.println("dueTime: " + this.dueTime);
         System.out.println("description: " + this.description);
         System.out.println("row: " + this.row);
+        System.out.println("status: " + this.status);
         System.out.println("id_task_detail: " + this.id_task_detail);
     }
 }

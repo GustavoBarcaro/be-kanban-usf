@@ -39,8 +39,8 @@ public class Task extends BaseClass {
             id_task = this.conn.insertReturningId(query);
         }
 
-        String query = String.format("insert into task_detail (id_task, name, time, due_time, description, row, id_user) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s') returning id",
-            id_task, json_body.name, json_body.time, json_body.dueTime, json_body.description, json_body.row, id_user
+        String query = String.format("insert into task_detail (id_task, name, time, due_time, description, row, status, id_user) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') returning id",
+            id_task, json_body.name, json_body.time, json_body.dueTime, json_body.description, json_body.row, json_body.status, id_user
         );
 
         String[] keys = {"task_detail", "task"};
@@ -108,7 +108,7 @@ public class Task extends BaseClass {
         if (this.auth(authorization) == "") {
             return false;
         }
-        String query = String.format("delete from task where id = '%d'", task_id);
+        String query = String.format("delete from task where id = '%s'", task_id);
         this.conn.executeQuery(query);
         return true;
     }
@@ -124,9 +124,12 @@ public class Task extends BaseClass {
             return false;
         }
 
-        this.destroy(authorization, id_task_detail);
-        this.store(authorization, task_json);
-
+        String query = String.format("delete from task_detail where id = '%s'", id_task_detail);
+        this.conn.executeQuery(query);
+        query = String.format("insert into task_detail (id, id_task, name, time, due_time, description, row, status, id_user) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') returning id",
+            id_task_detail, task_json.id, task_json.name, task_json.time, task_json.dueTime, task_json.description, task_json.row, task_json.status, id_user
+        );
+        this.conn.executeQuery(query);
         return true;
     }
 }
